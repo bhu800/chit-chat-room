@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, flash
 from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
+from time import localtime, strftime
 
 from wtform_fields import *
 from models import *
@@ -8,6 +10,9 @@ from models import *
 # configure app
 app = Flask(__name__)
 app.secret_key = 'Illuminati'
+
+# Initialize flask-SocketIO
+socketio = SocketIO(app) 
 
 # Configure database
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wgprfdrnwgbedc:b055adf6e59127a38964e1b28e69998db0a1c9bd5e126b8de7052551cd5e85bc@ec2-18-214-211-47.compute-1.amazonaws.com:5432/dde4krt7hro8q5"
@@ -81,7 +86,7 @@ def chat():
         flash('Please login!', category='danger')
         return redirect(url_for('login'))
 
-    return "Chat with me ;)"
+    return render_template("chat.html", username=current_user.username)
 
 @app.route("/logout", methods=['GET'])
 def logout():
@@ -94,6 +99,13 @@ def logout():
     flash("You have logged out successfully!", category='success')
     return redirect(url_for('login'))
 
+# defining event bucket for socketio
+@socketio.on('message')
+def message(data):
+
+    print("\n",data, "\n")
+
+    send({'msg': data['msg'], 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime())})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app, debug=True)
