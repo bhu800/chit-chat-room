@@ -5,6 +5,16 @@
         <title>{% block title %}{% endblock %} - chit-chat-lobby</title>
     </head>
     <body>
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories = True) %}
+            {% if messages %}
+                <!-- messages is array of tuples of (category, message) -->
+                Category: {{messages[0][0]}}
+                <br>
+                {{messages[0][1]}}
+            {% endif %}
+        {% endwith %}
+
         {% block content %}
         
         {% endblock %}
