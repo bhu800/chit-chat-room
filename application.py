@@ -25,6 +25,10 @@ def load_user(id):
 @app.route("/", methods=['GET', 'POST'])
 def index():
 
+    # to avoid user to access signup page after being logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('chat'))
+
     reg_form = RegistrationForm()
 
     # updated database if validation success
@@ -54,6 +58,10 @@ def index():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 
+    # to avoid user to access login page after being logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('chat'))
+
     login_form = LoginForm()
 
     # Allow login if validation is successful
@@ -77,6 +85,10 @@ def chat():
 
 @app.route("/logout", methods=['GET'])
 def logout():
+
+    # to avoid user to access logout functationality without being logged in
+    if not current_user.is_authenticated:
+        return redirect(url_for('index'))
 
     logout_user()
     flash("You have logged out successfully!", category='success')
