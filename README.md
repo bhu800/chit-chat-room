@@ -10,4 +10,4 @@ A real-time chat application in Flask.
 - [ ] **Bad word filtering** (top priority)
 - [ ] Joining multiple rooms at a time
 - [ ] Add, Update and View Profile (Profile Image, About) (basicaly a little 'social' touch :D)
-
+- [ ] Different background-image for different lounge
