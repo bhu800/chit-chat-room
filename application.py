@@ -14,11 +14,18 @@ app.secret_key = 'Illuminati'
 # Initialize flask-SocketIO
 socketio = SocketIO(app) 
 # pre-defined rooms
-ROOMS = ["lounge", "hot_discussions", "news", "bakar"]
+ROOMS = ["lounge", "discussions", "news", "bakar", "coding"]
 
 # Configure database
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wgprfdrnwgbedc:b055adf6e59127a38964e1b28e69998db0a1c9bd5e126b8de7052551cd5e85bc@ec2-18-214-211-47.compute-1.amazonaws.com:5432/dde4krt7hro8q5"
 db = SQLAlchemy(app)
+
+SQLALCHEMY_ENGINE_OPTIONS = {
+    "max_overflow": 15,
+    "pool_pre_ping": True,
+    "pool_recycle": 60 * 60,
+    "pool_size": 30,
+}
 
 # configure flask login
 login = LoginManager(app)
@@ -28,6 +35,11 @@ login.init_app(app)
 def load_user(id):
 
     return User.query.get(int(id))
+
+# to remove sql-alchemy timeout error
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.remove()
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -107,7 +119,7 @@ def message(data):
 
     print("\n", data, "\n")
 
-    send({'msg': data['msg'], 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime()), 'room':data['room']})
+    send({'msg': data['msg'], 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime())}, room=data['room'])
 
 @socketio.on('join')
 def join(data):
