@@ -8,3 +8,4 @@ A real-time chat application in Flask.
 - [ ] show all online users
 - [ ] emojis and stickers for chat
 - [ ] Bad word filtering
+- [ ] Joining multiple rooms at a time
