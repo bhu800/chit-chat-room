@@ -13,6 +13,8 @@ app.secret_key = 'Illuminati'
 
 # Initialize flask-SocketIO
 socketio = SocketIO(app) 
+# pre-defined rooms
+ROOMS = ["lounge", "hot_discussions", "news", "bakar"]
 
 # Configure database
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wgprfdrnwgbedc:b055adf6e59127a38964e1b28e69998db0a1c9bd5e126b8de7052551cd5e85bc@ec2-18-214-211-47.compute-1.amazonaws.com:5432/dde4krt7hro8q5"
@@ -86,7 +88,7 @@ def chat():
         flash('Please login!', category='danger')
         return redirect(url_for('login'))
 
-    return render_template("chat.html", username=current_user.username)
+    return render_template("chat.html", username=current_user.username, rooms=ROOMS)
 
 @app.route("/logout", methods=['GET'])
 def logout():
@@ -103,9 +105,22 @@ def logout():
 @socketio.on('message')
 def message(data):
 
-    print("\n",data, "\n")
+    print("\n", data, "\n")
 
-    send({'msg': data['msg'], 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime())})
+    send({'msg': data['msg'], 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime()), 'room':data['room']})
+
+@socketio.on('join')
+def join(data):
+    print("\n", data, "\n")
+    join_room(data['room'])
+    send({'msg': data['username']+" has joined the "+data['room']+" room!"}, room=data['room'])
+
+
+@socketio.on('leave')
+def leave(data):
+    print("\n", data, "\n")
+    leave_room(data['room'])
+    send({'msg': data['username']+" has left the "+data['room']+" room!"}, room=data['room'])
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
