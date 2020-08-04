@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+    <!-- Google jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+
+    </nav>
+
+    <!-- Message Area -->
+    <div id="main-section">
+        <!-- Room Selection Sidebar -->
+        <nav id="sidebar">
+            <h4>Rooms</h4>
+            {% for room in rooms %}
+                <p class="select-room">{{ room|title }}</p>
+            {% endfor %}
+        </nav>
+
+        <!-- Message Area -->
+        <div id="rightside-panel">
+            <!-- Display Chat Section -->
+            <div id="display-chat-section">
+
+            </div>
+            <!-- Input Message -->
+            <div id="input-area">
+                <input type="test" id="user_message" placeholder="Type here..." autocomplete="off" autofocus>
+                <button type="button" id="send_message">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Get Username -->
+    <script type="text/javascript">
+        const username = `{{ username }}`;
+    </script>
+
+    <!-- SocketIO JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+
+    <!-- Custom SocketIO JS -->
+    <script type="text/javascript" charset="utf-8" src="{{url_for('static', filename='scripts/socketio.js')}}"></script>
+
+</body>
+</html>
