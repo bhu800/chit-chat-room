@@ -53,7 +53,7 @@ $(document).ready(function(){
     $('.select-room').each(function(){
         $( this ).click(function(e){              // Important NOTE: don't forget to keep space in $() with 'this' keyword, otherwise it will give unexpected behaviour
             let newRoom = this.innerHTML.toLowerCase();
-            // console.log(newRoom);
+            console.log(newRoom);
             // console.log(this);
             console.log(newRoom, room);
             if (newRoom == room) {
@@ -74,7 +74,7 @@ $(document).ready(function(){
     function leaveRoom(room) {
         // console.log(room)
         $('.select-room').each(function () {
-            $( this ).style.color = "black";
+            $( this ).css("color", "black");
           })
         socket.emit('leave', {'username': username, 'room': room});
     };

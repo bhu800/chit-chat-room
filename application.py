@@ -7,6 +7,8 @@ from time import localtime, strftime
 from wtform_fields import *
 from models import *
 
+from better_profanity import profanity
+
 # configure app
 app = Flask(__name__)
 app.secret_key = 'Illuminati'
@@ -116,10 +118,10 @@ def logout():
 # defining event bucket for socketio
 @socketio.on('message')
 def message(data):
+    # profanity filter
+    profanity.load_censor_words()
 
-    print("\n", data, "\n")
-
-    send({'msg': data['msg'], 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime())}, room=data['room'])
+    send({'msg': profanity.censor(data['msg']), 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime())}, room=data['room'])
 
 @socketio.on('join')
 def join(data):
