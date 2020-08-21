@@ -5,11 +5,6 @@ $(document).ready(function(){
     let room = 'lounge';
     joinRoom(room);
 
-    // send info that socketio has been connected
-    // socket.on('connect', function(){
-    //     socket.send(data = "I am Connected!!")
-    // });
-
     // show message on receiving message in 'message' event bucket
     socket.on('message',function(data){
         
@@ -70,6 +65,10 @@ $(document).ready(function(){
         })
     });
 
+    $("#logout-btn").click(function(){
+        leaveRoom(room);
+    })
+
     // Leave Room function
     function leaveRoom(room) {
         // console.log(room)
@@ -94,7 +93,7 @@ $(document).ready(function(){
 
     // Print system messages
     function printSysMsg(msg) {
-        var sys_msg = $('<p></p>').text(msg);
+        var sys_msg = $('<p class="system-msg"></p>').text(msg);
         $('#display-chat-section').append(sys_msg);
     }
 

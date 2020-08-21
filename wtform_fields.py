@@ -31,7 +31,7 @@ class RegistrationForm(FlaskForm):
         Length(min=6, max=27, message="Password must be in between 6 to 27 characters")])
     confirm_password = PasswordField("confirm_password_label", validators=[InputRequired(message="Password Required!"), 
         EqualTo("password", message="Passwords must match!")])
-    submit_button = SubmitField("SignUp!")
+    # submit_button = SubmitField("SignUp!")
 
     # inline custom validator
     # name has to be strictly in this format
@@ -48,4 +48,4 @@ class LoginForm(FlaskForm):
         validators=[InputRequired(message="Username required!")])
     password = PasswordField('password_label', 
         validators=[InputRequired(message="Password Required!"), invalid_credential])
-    submit_button = SubmitField("Login!")
+    # submit_button = SubmitField("Login!")

@@ -119,8 +119,9 @@ def logout():
 @socketio.on('message')
 def message(data):
     # profanity filter
+    print(data)
     profanity.load_censor_words()
-
+    # print('msg ', profanity.censor(data['msg']), 'username ', data['username'], 'timestamp ', strftime('%d-%b %I:%M%p', localtime()), "room ", data['room'])
     send({'msg': profanity.censor(data['msg']), 'username': data['username'], 'timestamp': strftime('%d-%b %I:%M%p', localtime())}, room=data['room'])
 
 @socketio.on('join')
