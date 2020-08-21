@@ -6,7 +6,7 @@
 
         <title>{% block title %}{% endblock %} | chit-chat-lobby</title>
 
-        <link rel="icon" href="{{url_for('static', filename='images/chat_icon.png')}}" type="image/x-icon"/>
+        <link rel="icon" href="{{url_for('static', filename='images/chitchat2.png')}}" type="image/x-icon"/>
 
          <!-- Bootstrap -->
          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -57,5 +57,8 @@
             <!-- Righthand side end -->
         </div>
         <!-- Main section end -->
+        <footer style="width: 100%; bottom: 0; position: fixed;">
+            <p style="text-align: center; font-size: 13px;">Made with <img src="{{url_for('static', filename='images/pixel_heart.png')}}" style="height: 13px; vertical-align: middle; float: none;"> by <a href="https://github.com/bhu800" target="_blank">Bhumanyu Goyal!</a> </p>
+        </footer>
     </body>
 </html>

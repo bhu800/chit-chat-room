@@ -3,6 +3,7 @@ from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from time import localtime, strftime
+import os
 
 from wtform_fields import *
 from models import *
@@ -11,7 +12,7 @@ from better_profanity import profanity
 
 # configure app
 app = Flask(__name__)
-app.secret_key = 'Illuminati'
+app.secret_key = os.environ.get(SECRET) # flask app secret key from heroku
 
 # Initialize flask-SocketIO
 socketio = SocketIO(app) 
@@ -19,7 +20,7 @@ socketio = SocketIO(app)
 ROOMS = ["lounge", "discussions", "news", "bakar", "coding"]
 
 # Configure database
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wgprfdrnwgbedc:b055adf6e59127a38964e1b28e69998db0a1c9bd5e126b8de7052551cd5e85bc@ec2-18-214-211-47.compute-1.amazonaws.com:5432/dde4krt7hro8q5"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(DATABASE_URL) # sql database link from heroku
 db = SQLAlchemy(app)
 
 SQLALCHEMY_ENGINE_OPTIONS = {
@@ -138,4 +139,5 @@ def leave(data):
     send({'msg': data['username']+" has left the "+data['room']+" room!"}, room=data['room'])
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    # socketio.run(app, debug=True)
+    app.run() # using gunicorn server
