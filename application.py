@@ -12,7 +12,7 @@ from better_profanity import profanity
 
 # configure app
 app = Flask(__name__)
-app.secret_key = os.environ.get(SECRET) # flask app secret key from heroku
+app.secret_key = os.environ.get('SECRET') # flask app secret key from heroku
 
 # Initialize flask-SocketIO
 socketio = SocketIO(app) 
@@ -20,7 +20,7 @@ socketio = SocketIO(app)
 ROOMS = ["lounge", "discussions", "news", "bakar", "coding"]
 
 # Configure database
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(DATABASE_URL) # sql database link from heroku
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') # sql database link from heroku
 db = SQLAlchemy(app)
 
 SQLALCHEMY_ENGINE_OPTIONS = {
